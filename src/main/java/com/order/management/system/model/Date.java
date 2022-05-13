@@ -1,7 +1,6 @@
 package com.order.management.system.model;
 
-import java.sql.Timestamp;
-
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,6 +21,6 @@ public class Date {
 	private String dateId;
 
 	@Column(name = "date")
-	private Timestamp date;
+	private LocalDate date;
 
 }
