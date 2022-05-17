@@ -23,4 +23,5 @@ public class Customer {
 
 	    @Column(name="phone")
 	    private String customerPhoneNumber;
+
 }
