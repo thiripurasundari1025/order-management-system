@@ -1,6 +1,9 @@
 package com.order.management.system.service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import com.order.management.system.model.OrderLine;
 import com.order.management.system.repository.CustomerRepository;
 import com.order.management.system.repository.OrderHeaderRepository;
 import com.order.management.system.repository.OrderRepository;
+import com.order.management.system.utils.CollectionUtils;
 
 @Service
 public class OrderService {
@@ -27,42 +31,48 @@ public class OrderService {
 	@Autowired
 	OrderHeaderRepository orderHeaderRepository;
 
-	public String createOrder(MultiValueMap data) {
-		System.out.println("order service");
+	// @Slf4j
+	public String createOrder(MultiValueMap<String, String> data, String customerName) {
 		try {
-		OrderLine orderData=new OrderLine();
-		orderData.setProductId((Integer) data.get("product_id"));
-		
-		Customer customer = new Customer();
-		
-		OrderHeader header = new OrderHeader();
+			OrderLine orderData = new OrderLine();
+			orderData.setProductId(Integer.valueOf(CollectionUtils.getFromList(data.get("product_id"))));
 
-		if (customer.getCustomerName().equals("alwaysBest")) {
-			header.setCustomerId(CustomerInfo.ALWAYS_BEST.getCustomerId());
-		} else if (customer.getCustomerName().equals("colmart")) {
-			header.setCustomerId(CustomerInfo.COLMART.getCustomerId());
-		} else if (customer.getCustomerName().equals("top")) {
-			header.setCustomerId(CustomerInfo.TOP.getCustomerId());
-		}
+			Customer customer = new Customer();
 
-		if (data != null) {
-			//header.setDateId("#D11");
-			orderHeaderRepository.save(header);
-			OrderLine order = orderRepository.save(orderData);
-			
-			if(order!=null) {
-				header.setDeliveryDate((Timestamp) data.get("delivery_date"));
-				header.setQuantity((int) data.get("quantity"));
-				header.setStatus(OrderHeaderStatus.CREDIT_CHECK_DONE.toString());
+			OrderHeader header = new OrderHeader();
+
+			if (customerName.equals("alwaysBest")) {
+				header.setCustomerId(CustomerInfo.ALWAYS_BEST.getCustomerId());
+			} else if (customerName.equals("colmart")) {
+				header.setCustomerId(CustomerInfo.COLMART.getCustomerId());
+			} else if (customerName.equals("top")) {
+				header.setCustomerId(CustomerInfo.TOP.getCustomerId());
 			}
-			
-			return "New order created scuccessfully.";
-		}
-		
-	}catch(Exception e) {
-		e.printStackTrace();
-	}
-		return "Invaild Data";
-}
-}
 
+			if (data != null) {
+				// header.setDateId("#D11");
+				OrderHeader headerDate= orderHeaderRepository.save(header);
+				OrderLine order = orderRepository.save(orderData);
+
+				if (order != null) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				    String DateToStoreInDataBase= sdf.format(new Date()); // java.util.Date
+				    System.out.println(DateToStoreInDataBase);
+
+				    Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase); // java.sql.Timestamp
+				  
+				    headerDate.setDeliveryDate(ts);
+				    headerDate.setQuantity(Integer.valueOf(CollectionUtils.getFromList(data.get("quantity"))));
+				    headerDate.setStatus(OrderHeaderStatus.CREDIT_CHECK_DONE.toString());
+				    orderHeaderRepository.save(headerDate);
+				}
+
+				return "New order created scuccessfully.";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "Invaild Data";
+	}
+}

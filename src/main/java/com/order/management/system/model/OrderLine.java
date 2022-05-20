@@ -6,7 +6,13 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +22,7 @@ import lombok.Data;
 public class OrderLine {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="order_line_id")
 	private Integer orderLineId;
 	
@@ -34,8 +41,10 @@ public class OrderLine {
 	@Column(name="status")
 	private String status;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="create_date")
 	private Timestamp createDate;
+	
 	public OrderLine() {
 		// TODO Auto-generated constructor stub
 	}

@@ -5,10 +5,13 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
 
-import lombok.Data;
 
 
 @Entity
@@ -16,6 +19,7 @@ import lombok.Data;
 public class OrderHeader {
  
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="order_id")
     private int orderId;
 
@@ -23,14 +27,17 @@ public class OrderHeader {
     private int customerId;
 
     @Column(name="quantity")
+    @Min(value = 0)
     private int quantity;
 
     @Column(name="status")
     private String status;
-
+    
+    
     @Column(name="create_date")
     private Timestamp createDate;
 
+   // @FutureOrPresent(message = "creation date must be future or present.")
     @Column(name="delivery_date")
     private Timestamp deliveryDate;
 
