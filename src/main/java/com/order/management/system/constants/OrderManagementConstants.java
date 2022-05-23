@@ -33,5 +33,23 @@ public class OrderManagementConstants {
 
 		private Integer customerId;
 	}
+	public enum ProductPrize {
+		Fressie_Orange_1_liter(0.5),Fressie_Orange_Mango_1_liter(0.52),Fressie_Orange_Cpower_PET(0.35),Fressie_Orange_PET(0.24),Fressie_Orange_Mango_PET(0.28),Fressie_Orange_Mango_C_1L(0.6);
+
+		
+		ProductPrize(Double prize) {
+			this.setProductPrize(prize);
+		}
+
+		public Double getProductPrize() {
+			return prize;
+		}
+
+		public void setProductPrize(Double prize) {
+			this.prize = prize;
+		}
+
+		private Double prize;
+	}
 
 }

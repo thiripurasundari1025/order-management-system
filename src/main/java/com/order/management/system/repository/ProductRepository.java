@@ -6,5 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.order.management.system.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
+
+
+	//Double getSalesPriceRetailById(Integer productId);
  
 }

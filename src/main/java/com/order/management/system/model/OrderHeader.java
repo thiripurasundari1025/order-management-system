@@ -9,8 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 
@@ -35,6 +40,7 @@ public class OrderHeader {
     
     
     @Column(name="create_date")
+    @CreationTimestamp
     private Timestamp createDate;
 
    // @FutureOrPresent(message = "creation date must be future or present.")

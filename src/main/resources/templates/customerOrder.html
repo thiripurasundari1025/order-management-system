@@ -123,7 +123,9 @@ margin: 0 auto;
 <div class="login-page">
 <div class="form">
 
-<p class="button"  th:text="${message}"></p>
+<!--<p class="button" th:text="${message}"></p>-->
+<p id="deletesuccess" th:text="${message}" ></p>
+
 
 <h1>Place an Order</h1>
 
@@ -168,11 +170,11 @@ margin: 0 auto;
 </div>
 
 </body>
-<!--<script>
- type="button"
-var pressedButton = document.getElementsByTagName("button")[0];
-//var result = "<%=session.getAttribute("message")%>"
-pressedButton.addEventListener("click", function (event) {
-alert("Order Created!")
-})</script>-->
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+$(document).ready( function() {
+$('#deletesuccess').delay(1500).fadeOut();
+});
+</script>
 </html>

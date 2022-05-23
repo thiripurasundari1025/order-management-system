@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
@@ -36,13 +38,14 @@ public class OrderLine {
 	private Integer quantity;
 	
 	@Column(name="price")
-	private BigDecimal price;
+	private Double price;
 	
 	@Column(name="status")
 	private String status;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	  
 	@Column(name="create_date")
+	@CreationTimestamp
 	private Timestamp createDate;
 	
 	public OrderLine() {
@@ -97,12 +100,12 @@ public class OrderLine {
 		this.quantity = quantity;
 	}
 
-	public BigDecimal getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setPrice(Double prize) {
+		this.price = prize;
 	}
 
 	public String getStatus() {
